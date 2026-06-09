@@ -1,9 +1,8 @@
-import { ArrowRight, BookOpen, CalendarDays, FolderKanban, Map, Rocket, Sparkles } from 'lucide-react';
+import { ArrowRight, BookOpen, CalendarDays, Map, Rocket, Sparkles } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { LearningMap } from '../components/LearningMap';
 import { PostCard } from '../components/PostCard';
 import { RandomReviewButton } from '../components/RandomReviewButton';
-import { categoryStats, latestPosts } from '../lib/posts';
+import { latestPosts } from '../lib/posts';
 
 export function HomePage() {
   return (
@@ -62,8 +61,6 @@ export function HomePage() {
         </div>
       </section>
 
-      <LearningMap categories={categoryStats} />
-
       <section className="section-block">
         <div className="section-heading horizontal">
           <div>
@@ -82,26 +79,6 @@ export function HomePage() {
         </div>
       </section>
 
-      <section className="section-block">
-        <div className="section-heading horizontal">
-          <div>
-            <span className="eyebrow">Categories</span>
-            <h2>分类入口</h2>
-          </div>
-          <Link className="text-link" to="/categories">
-            分类归档
-            <FolderKanban size={16} />
-          </Link>
-        </div>
-        <div className="category-chip-grid">
-          {categoryStats.map((category) => (
-            <Link key={category.category} to={`/categories/${encodeURIComponent(category.category)}`}>
-              <strong>{category.category}</strong>
-              <span>{category.count} 篇</span>
-            </Link>
-          ))}
-        </div>
-      </section>
     </>
   );
 }
