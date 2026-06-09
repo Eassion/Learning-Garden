@@ -1,38 +1,23 @@
-import { Code2, Database, FolderKanban, Server, Sparkles, Wrench } from 'lucide-react';
+import { Bot, Coffee, FileText, Server } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import { Heatmap } from './Heatmap';
-import { RandomReviewButton } from './RandomReviewButton';
 import { heatmap, posts } from '../lib/posts';
 
 const stacks = [
   {
-    title: '前端基础',
-    detail: 'HTML / CSS / JavaScript',
-    icon: Code2,
+    title: 'Java 后端',
+    detail: 'Spring Boot / JVM / 微服务',
+    icon: Coffee,
   },
   {
-    title: 'React 方向',
-    detail: 'React / Hooks / Router',
-    icon: Sparkles,
-  },
-  {
-    title: '类型系统',
-    detail: 'TypeScript / 数据建模',
-    icon: Wrench,
-  },
-  {
-    title: '服务端学习',
-    detail: 'Node / API / 后端基础',
+    title: 'Golang 后端',
+    detail: 'Go / Gin / 并发编程',
     icon: Server,
   },
   {
-    title: '数据存储',
-    detail: 'SQL / 数据库设计',
-    icon: Database,
-  },
-  {
-    title: '工程化部署',
-    detail: 'Vite / Docker / nginx',
-    icon: FolderKanban,
+    title: 'Agent 开发',
+    detail: 'LLM / Tool Use / 工作流编排',
+    icon: Bot,
   },
 ];
 
@@ -62,16 +47,15 @@ export function TechStackRail() {
 }
 
 export function LearningPulseRail() {
-  const reviewingCount = posts.filter((post) => post.status === 'reviewing').length;
   const currentMonth = new Date().toISOString().slice(0, 7);
   const monthCount = posts.filter((post) => post.date.startsWith(currentMonth)).length;
 
   return (
-    <aside className="site-rail site-rail-right" aria-label="学习热力图和学习统计">
+    <aside className="site-rail site-rail-right" aria-label="学习热力图和知识沉淀统计">
       <section className="rail-panel stats-rail-panel">
         <div className="rail-heading">
-          <span className="eyebrow">Learning pulse</span>
-          <h2>学习状态</h2>
+          <span className="eyebrow">Knowledge base</span>
+          <h2>学习沉淀</h2>
         </div>
         <div className="hero-metrics rail-metrics" aria-label="学习统计">
           <span>
@@ -82,12 +66,11 @@ export function LearningPulseRail() {
             <strong>{monthCount}</strong>
             本月新增
           </span>
-          <span>
-            <strong>{reviewingCount}</strong>
-            待复习
-          </span>
         </div>
-        <RandomReviewButton variant="secondary" />
+        <Link className="secondary-action" to="/blog">
+          <FileText size={18} />
+          查看笔记
+        </Link>
       </section>
       <Heatmap data={heatmap} compact />
     </aside>

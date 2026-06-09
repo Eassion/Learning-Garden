@@ -12,8 +12,8 @@ const makePost = (overrides: Partial<Post>): Post => ({
   slug: 'sample',
   title: '示例笔记',
   date: '2026-06-01',
-  category: 'React',
-  tags: ['状态管理'],
+  category: 'Java 后端',
+  tags: ['Spring'],
   summary: '一篇示例笔记',
   status: 'learning',
   content: '正文',
@@ -24,15 +24,15 @@ const makePost = (overrides: Partial<Post>): Post => ({
 describe('parsePost', () => {
   it('parses frontmatter and markdown content into a post', () => {
     const post = parsePost(
-      '/src/content/posts/react-state.md',
+      '/src/content/posts/spring-transaction.md',
       `---
-title: React 状态学习
+title: Spring 事务学习
 date: 2026-06-02
-category: React
+category: Java 后端
 tags:
-  - 状态管理
-  - Hooks
-summary: useState 和状态流转记录
+  - Spring
+  - 事务
+summary: 事务传播机制和失效场景记录
 status: reviewing
 ---
 
@@ -42,12 +42,12 @@ status: reviewing
     );
 
     expect(post).toMatchObject({
-      slug: 'react-state',
-      title: 'React 状态学习',
+      slug: 'spring-transaction',
+      title: 'Spring 事务学习',
       date: '2026-06-02',
-      category: 'React',
-      tags: ['状态管理', 'Hooks'],
-      summary: 'useState 和状态流转记录',
+      category: 'Java 后端',
+      tags: ['Spring', '事务'],
+      summary: '事务传播机制和失效场景记录',
       status: 'reviewing',
     });
     expect(post.content).toContain('# 正文标题');
@@ -72,28 +72,28 @@ summary: 没有 category
 
 describe('content aggregations', () => {
   const posts = [
-    makePost({ slug: 'old-review', date: '2026-05-01', category: 'React', status: 'reviewing' }),
-    makePost({ slug: 'new-learning', date: '2026-06-03', category: 'React', status: 'learning' }),
-    makePost({ slug: 'ts-note', date: '2026-06-03', category: 'TypeScript', status: 'done' }),
-    makePost({ slug: 'db-note', date: '2026-06-04', category: '数据库', status: 'done' }),
+    makePost({ slug: 'old-review', date: '2026-05-01', category: 'Java 后端', status: 'reviewing' }),
+    makePost({ slug: 'new-learning', date: '2026-06-03', category: 'Java 后端', status: 'learning' }),
+    makePost({ slug: 'go-note', date: '2026-06-03', category: 'Golang 后端', status: 'done' }),
+    makePost({ slug: 'agent-note', date: '2026-06-04', category: 'Agent 开发', status: 'done' }),
   ];
 
   it('groups posts by category with counts, latest date, and status counts', () => {
     expect(buildCategoryStats(posts)).toEqual([
       {
-        category: 'React',
+        category: 'Java 后端',
         count: 2,
         latestDate: '2026-06-03',
         statusCounts: { learning: 1, done: 0, reviewing: 1 },
       },
       {
-        category: 'TypeScript',
+        category: 'Golang 后端',
         count: 1,
         latestDate: '2026-06-03',
         statusCounts: { learning: 0, done: 1, reviewing: 0 },
       },
       {
-        category: '数据库',
+        category: 'Agent 开发',
         count: 1,
         latestDate: '2026-06-04',
         statusCounts: { learning: 0, done: 1, reviewing: 0 },

@@ -2,7 +2,7 @@ import type { ArchiveMonth, CategoryStat, HeatmapData, HeatmapDay, Post, PostSta
 
 const REQUIRED_FRONTMATTER = ['title', 'date', 'category', 'summary'] as const;
 const STATUS_VALUES: PostStatus[] = ['learning', 'done', 'reviewing'];
-const CATEGORY_ROADMAP = ['前端基础', 'React', 'TypeScript', '后端学习', '数据库', '工程化', '项目复盘'];
+const CATEGORY_ROADMAP = ['Java 后端', 'Golang 后端', 'Agent 开发'];
 
 type Frontmatter = {
   title?: unknown;

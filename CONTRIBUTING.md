@@ -27,7 +27,7 @@ npm run dev
 例如：
 
 ```text
-src/content/posts/react-hooks.md
+src/content/posts/spring-transaction.md
 ```
 
 建议文件名使用小写英文、数字和短横线，避免空格和中文标点。
@@ -40,13 +40,13 @@ src/content/posts/react-hooks.md
 
 ```markdown
 ---
-title: React Hooks 学习笔记
+title: Spring 事务学习笔记
 date: 2026-06-08
-category: React
+category: Java 后端
 tags:
-  - React
-  - Hooks
-summary: 记录 Hooks 的使用场景和常见问题。
+  - Spring
+  - 事务
+summary: 记录 Spring 事务传播机制和常见失效场景。
 status: learning
 ---
 
@@ -64,7 +64,7 @@ status: learning
 | `category` | 必填 | 主分类，每篇笔记只写一个 |
 | `summary` | 必填 | 简短摘要，用于文章卡片 |
 | `tags` | 可选 | 标签列表，可以写多个 |
-| `status` | 可选 | 学习状态，可选值：`learning`、`done`、`reviewing` |
+| `status` | 可选 | 进度状态，可选值：`learning`、`done`、`reviewing` |
 
 如果没有填写 `status`，项目会默认按 `learning` 处理。
 
@@ -75,19 +75,19 @@ status: learning
 例如文章文件是：
 
 ```text
-src/content/posts/react-state.md
+src/content/posts/spring-transaction.md
 ```
 
 对应图片可以放在：
 
 ```text
-public/notes/react-state/state-flow.svg
+public/notes/spring-transaction/transaction-flow.svg
 ```
 
 Markdown 中用根路径引用：
 
 ```markdown
-![React 状态流转图](/notes/react-state/state-flow.svg)
+![Spring 事务流程图](/notes/spring-transaction/transaction-flow.svg)
 ```
 
 提交前请确认图片文件名和引用路径一致。
@@ -108,10 +108,10 @@ npm run build
 建议从新分支提交：
 
 ```bash
-git checkout -b notes/add-react-hooks
-git add src/content/posts/react-hooks.md
-git commit -m "docs: add React Hooks note"
-git push origin notes/add-react-hooks
+git checkout -b notes/add-spring-transaction
+git add src/content/posts/spring-transaction.md
+git commit -m "docs: add Spring transaction note"
+git push origin notes/add-spring-transaction
 ```
 
 然后在 GitHub 上创建 Pull Request。PR 描述里请说明：

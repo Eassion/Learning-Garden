@@ -13,7 +13,7 @@ export function HomePage() {
           <span className="eyebrow">Learning Garden</span>
           <h1>把每一次学习，都沉淀成可以复习的笔记。</h1>
           <p>
-            这里记录课程知识点、项目复盘和阶段目标。主页会自动汇总 Markdown 笔记，生成分类地图、归档、热力图和随机复习入口。
+            这里记录课程知识点、项目复盘和阶段目标。主页会自动汇总 Markdown 笔记，生成分类地图、归档、热力图和回看入口。
           </p>
           <div className="hero-actions">
             <Link className="primary-action" to="/blog">

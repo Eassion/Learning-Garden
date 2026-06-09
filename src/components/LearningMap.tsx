@@ -14,7 +14,7 @@ export function LearningMap({ categories }: LearningMapProps) {
       <div className="section-heading">
         <span className="eyebrow">Learning map</span>
         <h2>分类学习地图</h2>
-        <p>每个分类都会自动统计文章数量、最近更新和学习状态，写 Markdown 就能更新地图。</p>
+        <p>每个分类都会自动统计文章数量、最近更新和进度分布，写 Markdown 就能更新地图。</p>
       </div>
       <div className="learning-map timeline-map">
         {categories.map((category, index) => (

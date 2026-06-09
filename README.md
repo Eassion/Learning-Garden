@@ -1,6 +1,6 @@
 # Learning Garden
 
-一个使用 Vite + React + TypeScript 构建的静态个人学习花园。它把 Markdown 笔记自动整理成博客、分类归档、标签、时间归档、学习热力图和随机复习入口。
+一个使用 Vite + React + TypeScript 构建的静态个人学习花园。它把 Markdown 笔记自动整理成博客、分类归档、标签、时间归档、学习热力图和回看入口。
 
 ## 功能
 
@@ -26,17 +26,17 @@ npm run dev
 
 ## 写一篇新笔记
 
-在 `src/content/posts/` 新建 Markdown 文件，例如 `react-hooks.md`：
+在 `src/content/posts/` 新建 Markdown 文件，例如 `spring-transaction.md`：
 
 ```markdown
 ---
-title: React Hooks 学习笔记
+title: Spring 事务学习笔记
 date: 2026-06-08
-category: React
+category: Java 后端
 tags:
-  - React
-  - Hooks
-summary: 记录 Hooks 的使用场景和常见问题。
+  - Spring
+  - 事务
+summary: 记录 Spring 事务传播机制和常见失效场景。
 status: learning
 ---
 
@@ -54,14 +54,14 @@ status: learning
 图片放到 `public/notes/<文章slug>/`，Markdown 中用根路径引用：
 
 ```markdown
-![React 状态流转图](/notes/react-state/state-flow.svg)
+![Spring 事务流程图](/notes/spring-transaction/transaction-flow.svg)
 ```
 
 例如：
 
-- 笔记：`src/content/posts/react-state.md`
-- 图片：`public/notes/react-state/state-flow.svg`
-- 引用：`/notes/react-state/state-flow.svg`
+- 笔记：`src/content/posts/spring-transaction.md`
+- 图片：`public/notes/spring-transaction/transaction-flow.svg`
+- 引用：`/notes/spring-transaction/transaction-flow.svg`
 
 ## 构建
 

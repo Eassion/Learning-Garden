@@ -3,7 +3,7 @@ import type { PostStatus } from './types';
 export const statusLabel: Record<PostStatus, string> = {
   learning: '学习中',
   done: '已完成',
-  reviewing: '待复习',
+  reviewing: '回看中',
 };
 
 export const statusTone: Record<PostStatus, string> = {
