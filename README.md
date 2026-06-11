@@ -1,13 +1,10 @@
 # Learning Garden
 
-一个使用 Vite + React + TypeScript 构建的静态个人学习花园。它把 Markdown 笔记自动整理成博客、分类归档、标签、时间归档、学习热力图和回看入口。
+一个使用 Vite + React + TypeScript 构建的静态个人学习花园。它把 Markdown 笔记自动整理成博客、时间归档、学习热力图和回看入口。
 
 ## 功能
 
 - Markdown 笔记博客
-- 每篇笔记一个主分类
-- 分类学习地图
-- 标签索引
 - 按月份归档
 - 最近 365 天学习热力图
 - 随机复习按钮
@@ -32,10 +29,6 @@ npm run dev
 ---
 title: Spring 事务学习笔记
 date: 2026-06-08
-category: Java 后端
-tags:
-  - Spring
-  - 事务
 summary: 记录 Spring 事务传播机制和常见失效场景。
 status: learning
 ---
@@ -45,7 +38,7 @@ status: learning
 这里写学习内容。
 ```
 
-必填字段是 `title`、`date`、`category`、`summary`。`status` 可选值是 `learning`、`done`、`reviewing`。
+必填字段是 `title`、`date`、`summary`。`status` 可选值是 `learning`、`done`、`reviewing`。
 
 如果你想给这个项目提交笔记，请先阅读 [提交笔记指南](./CONTRIBUTING.md)。
 

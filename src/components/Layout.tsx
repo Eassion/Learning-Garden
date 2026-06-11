@@ -1,4 +1,4 @@
-import { BookOpen, FolderKanban, Home, Moon, Rocket, Sun } from 'lucide-react';
+import { BookOpen, Home, Moon, Rocket, Sun } from 'lucide-react';
 import { NavLink } from 'react-router-dom';
 import { LearningPulseRail, TechStackRail } from './SiteRails';
 
@@ -12,7 +12,6 @@ const navItems = [
   { to: '/', label: '首页', icon: Home },
   { to: '/blog', label: '笔记', icon: BookOpen },
   { to: '/projects', label: '项目', icon: Rocket },
-  { to: '/categories', label: '分类', icon: FolderKanban },
 ];
 
 export function Layout({ children, theme, onToggleTheme }: LayoutProps) {

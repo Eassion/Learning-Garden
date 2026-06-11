@@ -1,14 +1,11 @@
-import type { ArchiveMonth, CategoryStat, HeatmapData, HeatmapDay, Post, PostStatus, TagStat } from './types';
+import type { ArchiveMonth, HeatmapData, HeatmapDay, Post, PostStatus } from './types';
 
-const REQUIRED_FRONTMATTER = ['title', 'date', 'category', 'summary'] as const;
+const REQUIRED_FRONTMATTER = ['title', 'date', 'summary'] as const;
 const STATUS_VALUES: PostStatus[] = ['learning', 'done', 'reviewing'];
-const CATEGORY_ROADMAP = ['Java 后端', 'Golang 后端', 'Agent 开发'];
 
 type Frontmatter = {
   title?: unknown;
   date?: unknown;
-  category?: unknown;
-  tags?: unknown;
   summary?: unknown;
   status?: unknown;
 };
@@ -27,8 +24,6 @@ export function parsePost(filePath: string, raw: string): Post {
     slug: slugFromPath(filePath),
     title: String(frontmatter.title),
     date: normalizeDate(frontmatter.date),
-    category: String(frontmatter.category),
-    tags: parseTags(frontmatter.tags),
     summary: String(frontmatter.summary),
     status,
     content: content.trim(),
@@ -80,40 +75,6 @@ export function sortPostsByDate(posts: Post[]): Post[] {
   return [...posts].sort((a, b) => b.date.localeCompare(a.date));
 }
 
-export function buildCategoryStats(posts: Post[]): CategoryStat[] {
-  const map = new Map<string, CategoryStat>();
-
-  for (const post of posts) {
-    const current =
-      map.get(post.category) ??
-      ({
-        category: post.category,
-        count: 0,
-        latestDate: post.date,
-        statusCounts: { learning: 0, done: 0, reviewing: 0 },
-      } satisfies CategoryStat);
-
-    current.count += 1;
-    current.latestDate = current.latestDate > post.date ? current.latestDate : post.date;
-    current.statusCounts[post.status] += 1;
-    map.set(post.category, current);
-  }
-
-  return Array.from(map.values()).sort((a, b) => categoryRank(a.category) - categoryRank(b.category) || b.count - a.count || a.category.localeCompare(b.category, 'zh-CN'));
-}
-
-export function buildTagStats(posts: Post[]): TagStat[] {
-  const map = new Map<string, number>();
-
-  for (const post of posts) {
-    for (const tag of post.tags) {
-      map.set(tag, (map.get(tag) ?? 0) + 1);
-    }
-  }
-
-  return Array.from(map, ([tag, count]) => ({ tag, count })).sort((a, b) => b.count - a.count || a.tag.localeCompare(b.tag, 'zh-CN'));
-}
-
 export function buildArchive(posts: Post[]): ArchiveMonth[] {
   const map = new Map<string, Post[]>();
 
@@ -162,14 +123,6 @@ export function chooseReviewPost(posts: Post[], random = Math.random): Post | un
   return weighted[Math.floor(random() * weighted.length)];
 }
 
-export function groupPostsByCategory(posts: Post[], category: string): Post[] {
-  return sortPostsByDate(posts).filter((post) => post.category === category);
-}
-
-export function groupPostsByTag(posts: Post[], tag: string): Post[] {
-  return sortPostsByDate(posts).filter((post) => post.tags.includes(tag));
-}
-
 export function postsOnDate(posts: Post[], date: string): Post[] {
   return sortPostsByDate(posts).filter((post) => post.date === date);
 }
@@ -180,21 +133,6 @@ function parseStatus(value: unknown): PostStatus {
   }
 
   return 'learning';
-}
-
-function parseTags(value: unknown): string[] {
-  if (!value) {
-    return [];
-  }
-
-  if (Array.isArray(value)) {
-    return value.map(String).filter(Boolean);
-  }
-
-  return String(value)
-    .split(',')
-    .map((tag) => tag.trim())
-    .filter(Boolean);
 }
 
 function cleanScalar(value: string): string {
@@ -251,7 +189,3 @@ function heatLevel(count: number): number {
   return 4;
 }
 
-function categoryRank(category: string): number {
-  const index = CATEGORY_ROADMAP.indexOf(category);
-  return index === -1 ? CATEGORY_ROADMAP.length : index;
-}

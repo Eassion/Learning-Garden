@@ -1,12 +1,6 @@
 ---
 title: 50 亿 URL 文件如何找共同 URL
 date: 2026-06-09
-category: Java 后端
-tags:
-  - 海量数据
-  - 哈希分桶
-  - 外部排序
-  - 面试题
 summary: 记录两个超大 URL 文件在 4GB 内存限制下如何找交集，核心思路是把大问题拆成多个可放入内存的小问题。
 status: learning
 ---

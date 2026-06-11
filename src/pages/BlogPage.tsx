@@ -9,7 +9,7 @@ export function BlogPage() {
       <div className="page-heading">
         <span className="eyebrow">All notes</span>
         <h1>全部学习笔记</h1>
-        <p>按时间倒序排列。分类负责主线归档，标签负责交叉主题。</p>
+        <p>按时间倒序排列，方便回看每一次学习记录。</p>
         <RandomReviewButton />
       </div>
       <div className="post-list">
