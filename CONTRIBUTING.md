@@ -34,7 +34,7 @@ src/content/posts/spring-transaction.md
 
 ## 3. 编写 Frontmatter
 
-每篇笔记顶部必须有 Frontmatter，用来生成标题、分类、标签和摘要。
+每篇笔记顶部必须有 Frontmatter，用来生成标题、分类和标签。
 
 模板：
 
@@ -46,8 +46,6 @@ category: Java 后端
 tags:
   - Spring
   - 事务
-summary: 记录 Spring 事务传播机制和常见失效场景。
-status: learning
 ---
 
 ## 正文标题
@@ -62,11 +60,7 @@ status: learning
 | `title` | 必填 | 笔记标题，会显示在文章列表和详情页 |
 | `date` | 必填 | 发布或整理日期，格式为 `YYYY-MM-DD` |
 | `category` | 必填 | 主分类，每篇笔记只写一个 |
-| `summary` | 必填 | 简短摘要，用于文章卡片 |
 | `tags` | 可选 | 标签列表，可以写多个 |
-| `status` | 可选 | 进度状态，可选值：`learning`、`done`、`reviewing` |
-
-如果没有填写 `status`，项目会默认按 `learning` 处理。
 
 ## 4. 添加图片或附件
 

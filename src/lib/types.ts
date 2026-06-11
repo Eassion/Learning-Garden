@@ -1,13 +1,9 @@
-export type PostStatus = 'learning' | 'done' | 'reviewing';
-
 export interface Post {
   slug: string;
   title: string;
   date: string;
   category: string;
   tags: string[];
-  summary: string;
-  status: PostStatus;
   content: string;
   readingMinutes: number;
 }
@@ -16,7 +12,6 @@ export interface CategoryStat {
   category: string;
   count: number;
   latestDate: string;
-  statusCounts: Record<PostStatus, number>;
 }
 
 export interface TagStat {

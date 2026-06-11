@@ -1,7 +1,7 @@
 import { ArrowLeft, Calendar, Clock, Folder, Tags } from 'lucide-react';
 import { Link, useParams } from 'react-router-dom';
 import { MarkdownArticle } from '../components/MarkdownArticle';
-import { formatDate, statusLabel, statusTone } from '../lib/labels';
+import { formatDate } from '../lib/labels';
 import { posts } from '../lib/posts';
 import { categoryPath, decodeRouteParam, tagPath } from '../lib/routes';
 
@@ -30,9 +30,7 @@ export function PostPage() {
         返回笔记列表
       </Link>
       <header className="article-header">
-        <span className={`status-pill ${statusTone[post.status]}`}>{statusLabel[post.status]}</span>
         <h1>{post.title}</h1>
-        <p>{post.summary}</p>
         <div className="article-meta">
           <span>
             <Calendar size={16} />

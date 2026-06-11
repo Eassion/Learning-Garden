@@ -5,8 +5,6 @@ category: 计算机基础
 tags:
   - 计算机语言
   - 语言特性
-summary: 了解解释型语言和编译型语言的不同
-status: learning
 ---
 
 ## 正文

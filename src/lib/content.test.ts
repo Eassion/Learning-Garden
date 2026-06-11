@@ -14,8 +14,6 @@ const makePost = (overrides: Partial<Post>): Post => ({
   date: '2026-06-01',
   category: 'Java 后端',
   tags: ['Spring'],
-  summary: '一篇示例笔记',
-  status: 'learning',
   content: '正文',
   readingMinutes: 1,
   ...overrides,
@@ -32,8 +30,6 @@ category: Java 后端
 tags:
   - Spring
   - 事务
-summary: 事务传播机制和失效场景记录
-status: reviewing
 ---
 
 # 正文标题
@@ -47,8 +43,6 @@ status: reviewing
       date: '2026-06-02',
       category: 'Java 后端',
       tags: ['Spring', '事务'],
-      summary: '事务传播机制和失效场景记录',
-      status: 'reviewing',
     });
     expect(post.content).toContain('# 正文标题');
     expect(post.readingMinutes).toBe(1);
@@ -61,7 +55,6 @@ status: reviewing
         `---
 title: 缺少分类
 date: 2026-06-02
-summary: 没有 category
 ---
 
 正文`,
@@ -72,31 +65,28 @@ summary: 没有 category
 
 describe('content aggregations', () => {
   const posts = [
-    makePost({ slug: 'old-review', date: '2026-05-01', category: 'Java 后端', status: 'reviewing' }),
-    makePost({ slug: 'new-learning', date: '2026-06-03', category: 'Java 后端', status: 'learning' }),
-    makePost({ slug: 'go-note', date: '2026-06-03', category: 'Golang 后端', status: 'done' }),
-    makePost({ slug: 'agent-note', date: '2026-06-04', category: 'Agent 开发', status: 'done' }),
+    makePost({ slug: 'old-review', date: '2026-05-01', category: 'Java 后端' }),
+    makePost({ slug: 'new-learning', date: '2026-06-03', category: 'Java 后端' }),
+    makePost({ slug: 'go-note', date: '2026-06-03', category: 'Golang 后端' }),
+    makePost({ slug: 'agent-note', date: '2026-06-04', category: 'Agent 开发' }),
   ];
 
-  it('groups posts by category with counts, latest date, and status counts', () => {
+  it('groups posts by category with counts and latest date', () => {
     expect(buildCategoryStats(posts)).toEqual([
       {
         category: 'Java 后端',
         count: 2,
         latestDate: '2026-06-03',
-        statusCounts: { learning: 1, done: 0, reviewing: 1 },
       },
       {
         category: 'Golang 后端',
         count: 1,
         latestDate: '2026-06-03',
-        statusCounts: { learning: 0, done: 1, reviewing: 0 },
       },
       {
         category: 'Agent 开发',
         count: 1,
         latestDate: '2026-06-04',
-        statusCounts: { learning: 0, done: 1, reviewing: 0 },
       },
     ]);
   });
@@ -118,9 +108,9 @@ describe('content aggregations', () => {
     ]);
   });
 
-  it('chooses reviewing and older posts first for random review', () => {
+  it('chooses a random post for review', () => {
     const chosen = chooseReviewPost(posts, () => 0);
 
-    expect(chosen?.slug).toBe('old-review');
+    expect(chosen?.slug).toBe('agent-note');
   });
 });

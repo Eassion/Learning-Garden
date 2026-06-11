@@ -36,8 +36,6 @@ category: Java 后端
 tags:
   - Spring
   - 事务
-summary: 记录 Spring 事务传播机制和常见失效场景。
-status: learning
 ---
 
 ## 正文
@@ -45,7 +43,7 @@ status: learning
 这里写学习内容。
 ```
 
-必填字段是 `title`、`date`、`category`、`summary`。`status` 可选值是 `learning`、`done`、`reviewing`。
+必填字段是 `title`、`date`、`category`。`tags` 可选。
 
 如果你想给这个项目提交笔记，请先阅读 [提交笔记指南](./CONTRIBUTING.md)。
 

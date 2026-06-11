@@ -1,6 +1,6 @@
 import { ArrowRight, Calendar, Clock, Folder } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { formatDate, statusLabel, statusTone } from '../lib/labels';
+import { formatDate } from '../lib/labels';
 import { categoryPath, postPath, tagPath } from '../lib/routes';
 import type { Post } from '../lib/types';
 
@@ -20,12 +20,10 @@ export function PostCard({ post }: PostCardProps) {
           <Clock size={15} />
           {post.readingMinutes} 分钟
         </span>
-        <span className={`status-pill ${statusTone[post.status]}`}>{statusLabel[post.status]}</span>
       </div>
       <h3>
         <Link to={postPath(post.slug)}>{post.title}</Link>
       </h3>
-      <p>{post.summary}</p>
       <div className="post-card-footer">
         <Link className="meta-link" to={categoryPath(post.category)}>
           <Folder size={15} />

@@ -9,10 +9,6 @@ tags:
 
   - 大模型
 
-summary: 解释一下token
-
-
-
 ---
 
 ## 问题

@@ -1,7 +1,6 @@
-import type { ArchiveMonth, CategoryStat, HeatmapData, HeatmapDay, Post, PostStatus, TagStat } from './types';
+import type { ArchiveMonth, CategoryStat, HeatmapData, HeatmapDay, Post, TagStat } from './types';
 
-const REQUIRED_FRONTMATTER = ['title', 'date', 'category', 'summary'] as const;
-const STATUS_VALUES: PostStatus[] = ['learning', 'done', 'reviewing'];
+const REQUIRED_FRONTMATTER = ['title', 'date', 'category'] as const;
 const CATEGORY_ROADMAP = ['Java 后端', 'Golang 后端', 'Agent 开发'];
 
 type Frontmatter = {
@@ -9,8 +8,6 @@ type Frontmatter = {
   date?: unknown;
   category?: unknown;
   tags?: unknown;
-  summary?: unknown;
-  status?: unknown;
 };
 
 export function parsePost(filePath: string, raw: string): Post {
@@ -21,16 +18,12 @@ export function parsePost(filePath: string, raw: string): Post {
     throw new Error(`${filePath} missing required frontmatter: ${missing.join(', ')}`);
   }
 
-  const status = parseStatus(frontmatter.status);
-
   return {
     slug: slugFromPath(filePath),
     title: String(frontmatter.title),
     date: normalizeDate(frontmatter.date),
     category: String(frontmatter.category),
     tags: parseTags(frontmatter.tags),
-    summary: String(frontmatter.summary),
-    status,
     content: content.trim(),
     readingMinutes: estimateReadingMinutes(content),
   };
@@ -90,12 +83,10 @@ export function buildCategoryStats(posts: Post[]): CategoryStat[] {
         category: post.category,
         count: 0,
         latestDate: post.date,
-        statusCounts: { learning: 0, done: 0, reviewing: 0 },
       } satisfies CategoryStat);
 
     current.count += 1;
     current.latestDate = current.latestDate > post.date ? current.latestDate : post.date;
-    current.statusCounts[post.status] += 1;
     map.set(post.category, current);
   }
 
@@ -148,18 +139,13 @@ export function buildHeatmap(posts: Post[], today = new Date()): HeatmapData {
 }
 
 export function chooseReviewPost(posts: Post[], random = Math.random): Post | undefined {
-  const weighted = sortPostsByDate(posts)
-    .reverse()
-    .flatMap((post) => {
-      const weight = post.status === 'reviewing' ? 4 : post.status === 'learning' ? 2 : 1;
-      return Array.from({ length: weight }, () => post);
-    });
+  const sortedPosts = sortPostsByDate(posts);
 
-  if (weighted.length === 0) {
+  if (sortedPosts.length === 0) {
     return undefined;
   }
 
-  return weighted[Math.floor(random() * weighted.length)];
+  return sortedPosts[Math.floor(random() * sortedPosts.length)];
 }
 
 export function groupPostsByCategory(posts: Post[], category: string): Post[] {
@@ -172,14 +158,6 @@ export function groupPostsByTag(posts: Post[], tag: string): Post[] {
 
 export function postsOnDate(posts: Post[], date: string): Post[] {
   return sortPostsByDate(posts).filter((post) => post.date === date);
-}
-
-function parseStatus(value: unknown): PostStatus {
-  if (typeof value === 'string' && STATUS_VALUES.includes(value as PostStatus)) {
-    return value as PostStatus;
-  }
-
-  return 'learning';
 }
 
 function parseTags(value: unknown): string[] {
