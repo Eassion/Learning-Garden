@@ -1,6 +1,6 @@
 # 提交笔记指南
 
-感谢你愿意给 Learning Garden 添加笔记。这个项目把 Markdown 文件自动整理成博客、归档和学习热力图，所以提交一篇新笔记通常只需要新增一个 Markdown 文件，必要时再添加配图。
+感谢你愿意给 Learning Garden 添加笔记。这个项目把 Markdown 文件自动整理成博客、分类、标签、归档和学习热力图，所以提交一篇新笔记通常只需要新增一个 Markdown 文件，必要时再添加配图。
 
 ## 1. 准备本地环境
 
@@ -34,7 +34,7 @@ src/content/posts/spring-transaction.md
 
 ## 3. 编写 Frontmatter
 
-每篇笔记顶部必须有 Frontmatter，用来生成标题、日期和摘要。
+每篇笔记顶部必须有 Frontmatter，用来生成标题、分类、标签和摘要。
 
 模板：
 
@@ -42,6 +42,10 @@ src/content/posts/spring-transaction.md
 ---
 title: Spring 事务学习笔记
 date: 2026-06-08
+category: Java 后端
+tags:
+  - Spring
+  - 事务
 summary: 记录 Spring 事务传播机制和常见失效场景。
 status: learning
 ---
@@ -57,7 +61,9 @@ status: learning
 | --- | --- | --- |
 | `title` | 必填 | 笔记标题，会显示在文章列表和详情页 |
 | `date` | 必填 | 发布或整理日期，格式为 `YYYY-MM-DD` |
+| `category` | 必填 | 主分类，每篇笔记只写一个 |
 | `summary` | 必填 | 简短摘要，用于文章卡片 |
+| `tags` | 可选 | 标签列表，可以写多个 |
 | `status` | 可选 | 进度状态，可选值：`learning`、`done`、`reviewing` |
 
 如果没有填写 `status`，项目会默认按 `learning` 处理。
@@ -111,6 +117,7 @@ git push origin notes/add-spring-transaction
 然后在 GitHub 上创建 Pull Request。PR 描述里请说明：
 
 - 新增或修改了哪篇笔记
+- 主要分类和标签是什么
 - 是否包含图片或其他静态资源
 - 是否已经运行本地验证命令
 
@@ -120,8 +127,9 @@ git push origin notes/add-spring-transaction
 
 - Markdown 可以正常渲染
 - 必填 Frontmatter 字段完整
+- 分类和标签清晰、不过度重复
 - 图片路径正确，资源文件已一起提交
 - 内容适合公开展示，不包含敏感信息
 - `npm run build` 可以通过
 
-如果不确定内容粒度，可以先提交 PR，在描述里说明想讨论的点。
+如果不确定分类、标签或内容粒度，可以先提交 PR，在描述里说明想讨论的点。

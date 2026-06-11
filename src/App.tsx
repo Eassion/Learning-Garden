@@ -3,11 +3,15 @@ import { Navigate, Route, Routes } from 'react-router-dom';
 import { Layout } from './components/Layout';
 import { ArchivePage } from './pages/ArchivePage';
 import { BlogPage } from './pages/BlogPage';
+import { CategoriesPage } from './pages/CategoriesPage';
+import { CategoryPage } from './pages/CategoryPage';
 import { HomePage } from './pages/HomePage';
 import { NotFoundPage } from './pages/NotFoundPage';
 import { NowPage } from './pages/NowPage';
 import { PostPage } from './pages/PostPage';
 import { ProjectsPage } from './pages/ProjectsPage';
+import { TagPage } from './pages/TagPage';
+import { TagsPage } from './pages/TagsPage';
 
 type Theme = 'light' | 'dark';
 
@@ -35,6 +39,10 @@ export default function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/blog" element={<BlogPage />} />
         <Route path="/blog/:slug" element={<PostPage />} />
+        <Route path="/categories" element={<CategoriesPage />} />
+        <Route path="/categories/:category" element={<CategoryPage />} />
+        <Route path="/tags" element={<TagsPage />} />
+        <Route path="/tags/:tag" element={<TagPage />} />
         <Route path="/archive" element={<ArchivePage />} />
         <Route path="/now" element={<NowPage />} />
         <Route path="/projects" element={<ProjectsPage />} />

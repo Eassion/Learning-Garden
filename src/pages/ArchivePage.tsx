@@ -41,7 +41,7 @@ export function ArchivePage() {
                 <Link key={post.slug} to={postPath(post.slug)}>
                   <time>{post.date.slice(5)}</time>
                   <span>{post.title}</span>
-                  <small>{post.readingMinutes} 分钟</small>
+                  <small>{post.category}</small>
                 </Link>
               ))}
             </div>

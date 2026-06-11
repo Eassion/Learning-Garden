@@ -1,9 +1,9 @@
-import { ArrowLeft, Calendar, Clock } from 'lucide-react';
+import { ArrowLeft, Calendar, Clock, Folder, Tags } from 'lucide-react';
 import { Link, useParams } from 'react-router-dom';
 import { MarkdownArticle } from '../components/MarkdownArticle';
 import { formatDate, statusLabel, statusTone } from '../lib/labels';
 import { posts } from '../lib/posts';
-import { decodeRouteParam } from '../lib/routes';
+import { categoryPath, decodeRouteParam, tagPath } from '../lib/routes';
 
 export function PostPage() {
   const { slug } = useParams();
@@ -21,7 +21,7 @@ export function PostPage() {
     );
   }
 
-  const related = posts.filter((item) => item.slug !== post.slug).slice(0, 3);
+  const related = posts.filter((item) => item.slug !== post.slug && (item.category === post.category || item.tags.some((tag) => post.tags.includes(tag)))).slice(0, 3);
 
   return (
     <article className="page-section article-page">
@@ -42,6 +42,18 @@ export function PostPage() {
             <Clock size={16} />
             {post.readingMinutes} 分钟
           </span>
+          <Link to={categoryPath(post.category)}>
+            <Folder size={16} />
+            {post.category}
+          </Link>
+        </div>
+        <div className="tag-row article-tags">
+          <Tags size={16} />
+          {post.tags.map((tag) => (
+            <Link key={tag} to={tagPath(tag)}>
+              {tag}
+            </Link>
+          ))}
         </div>
       </header>
       <MarkdownArticle content={post.content} />
@@ -52,7 +64,7 @@ export function PostPage() {
             {related.map((item) => (
               <Link key={item.slug} to={`/blog/${item.slug}`}>
                 <strong>{item.title}</strong>
-                <span>{formatDate(item.date)}</span>
+                <span>{item.category}</span>
               </Link>
             ))}
           </div>

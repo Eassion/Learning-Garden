@@ -3,6 +3,12 @@ title: token和字符的区别，为什么要关注token
 
 date: 2026-06-11
 
+category: 大模型应用开发
+
+tags:
+
+  - 大模型
+
 summary: 解释一下token
 
 
