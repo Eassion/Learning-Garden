@@ -64,27 +64,20 @@ tags:
 
 ## 4. 添加图片或附件
 
-如果笔记需要图片，把图片放到 `public/notes/<文章slug>/` 目录下。
-
-例如文章文件是：
-
-```text
-src/content/posts/spring-transaction.md
-```
-
-对应图片可以放在：
-
-```text
-public/notes/spring-transaction/transaction-flow.svg
-```
-
-Markdown 中用根路径引用：
+如果笔记需要图片，直接在 Markdown 中插入图片即可。项目会在 `npm run dev`、`npm run build` 或 `npm test` 前自动扫描笔记里的本地图片引用，把图片复制到站点资源目录。
 
 ```markdown
-![Spring 事务流程图](/notes/spring-transaction/transaction-flow.svg)
+![Spring 事务流程图](C:/Users/me/Pictures/transaction-flow.png)
 ```
 
-提交前请确认图片文件名和引用路径一致。
+相对路径、外链图片和 `/` 开头的公共路径也可以继续使用：
+
+```markdown
+![相对路径图片](./spring-transaction/transaction-flow.svg)
+![外链图片](https://example.com/image.png)
+```
+
+提交前请运行 `npm run build`，确认图片可以正常解析和显示。
 
 ## 5. 本地验证
 

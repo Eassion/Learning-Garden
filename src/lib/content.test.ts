@@ -48,6 +48,26 @@ tags:
     expect(post.readingMinutes).toBe(1);
   });
 
+  it('resolves local markdown image paths from post assets', () => {
+    const post = parsePost(
+      '../content/posts/spring-transaction.md',
+      `---
+title: Spring 事务学习
+date: 2026-06-02
+category: Java 后端
+---
+
+![流程图](./spring-transaction/transaction-flow.png)
+![外链](https://example.com/image.png)`,
+      {
+        '../content/posts/spring-transaction/transaction-flow.png': '/assets/transaction-flow.abc123.png',
+      },
+    );
+
+    expect(post.content).toContain('![流程图](/assets/transaction-flow.abc123.png)');
+    expect(post.content).toContain('![外链](https://example.com/image.png)');
+  });
+
   it('throws a clear error when required frontmatter is missing', () => {
     expect(() =>
       parsePost(

@@ -49,17 +49,20 @@ tags:
 
 ## 在笔记中放图片
 
-图片放到 `public/notes/<文章slug>/`，Markdown 中用根路径引用：
+在 Markdown 中直接插入图片即可，启动或构建前会自动扫描笔记里的本地图片引用，把图片复制到站点资源目录并生成可访问路径。
 
 ```markdown
-![Spring 事务流程图](/notes/spring-transaction/transaction-flow.svg)
+![Spring 事务流程图](C:/Users/me/Pictures/transaction-flow.png)
 ```
 
-例如：
+也可以继续使用相对路径、外链图片或 `/` 开头的公共路径：
 
-- 笔记：`src/content/posts/spring-transaction.md`
-- 图片：`public/notes/spring-transaction/transaction-flow.svg`
-- 引用：`/notes/spring-transaction/transaction-flow.svg`
+```markdown
+![相对路径图片](./spring-transaction/transaction-flow.svg)
+![外链图片](https://example.com/image.png)
+```
+
+运行 `npm run dev`、`npm run build` 或 `npm test` 时会自动执行图片同步。
 
 ## 构建
 

@@ -1,4 +1,4 @@
-import type { ArchiveMonth, CategoryStat, HeatmapData, HeatmapDay, Post, TagStat } from './types';
+import type { ArchiveMonth, CategoryStat, HeatmapData, HeatmapDay, Post, PostAssetMap, TagStat } from './types';
 
 const REQUIRED_FRONTMATTER = ['title', 'date', 'category'] as const;
 const CATEGORY_ROADMAP = ['Java 后端', 'Golang 后端', 'Agent 开发'];
@@ -10,7 +10,7 @@ type Frontmatter = {
   tags?: unknown;
 };
 
-export function parsePost(filePath: string, raw: string): Post {
+export function parsePost(filePath: string, raw: string, assets: PostAssetMap = {}): Post {
   const { frontmatter, content } = parseFrontmatter(raw, filePath);
   const missing = REQUIRED_FRONTMATTER.filter((key) => !frontmatter[key]);
 
@@ -18,14 +18,16 @@ export function parsePost(filePath: string, raw: string): Post {
     throw new Error(`${filePath} missing required frontmatter: ${missing.join(', ')}`);
   }
 
+  const resolvedContent = resolveMarkdownAssetUrls(content.trim(), filePath, assets);
+
   return {
     slug: slugFromPath(filePath),
     title: String(frontmatter.title),
     date: normalizeDate(frontmatter.date),
     category: String(frontmatter.category),
     tags: parseTags(frontmatter.tags),
-    content: content.trim(),
-    readingMinutes: estimateReadingMinutes(content),
+    content: resolvedContent,
+    readingMinutes: estimateReadingMinutes(resolvedContent),
   };
 }
 
@@ -190,6 +192,72 @@ function normalizeDate(value: unknown): string {
   }
 
   return String(value).slice(0, 10);
+}
+
+function resolveMarkdownAssetUrls(content: string, filePath: string, assets: PostAssetMap): string {
+  return content
+    .replace(/(!\[[^\]]*]\()([^)]+)(\))/g, (_match, prefix: string, rawUrl: string, suffix: string) => {
+      return `${prefix}${resolveAssetUrl(rawUrl, filePath, assets)}${suffix}`;
+    })
+    .replace(/(<img\b[^>]*\bsrc=["'])([^"']+)(["'][^>]*>)/gi, (_match, prefix: string, rawUrl: string, suffix: string) => {
+      return `${prefix}${resolveAssetUrl(rawUrl, filePath, assets)}${suffix}`;
+    });
+}
+
+function resolveAssetUrl(rawUrl: string, filePath: string, assets: PostAssetMap): string {
+  const url = rawUrl.trim();
+
+  if (isExternalOrPublicUrl(url)) {
+    return rawUrl;
+  }
+
+  const [path, suffix = ''] = splitUrlSuffix(url);
+  const resolvedPath = normalizeAssetPath(filePath, path);
+  const directAsset = assets[rawUrl] ?? assets[url] ?? assets[path];
+
+  if (directAsset) {
+    return `${directAsset}${suffix}`;
+  }
+
+  return assets[resolvedPath] ? `${assets[resolvedPath]}${suffix}` : rawUrl;
+}
+
+function isExternalOrPublicUrl(url: string): boolean {
+  if (/^[a-z]:[\\/]/i.test(url)) {
+    return false;
+  }
+
+  return /^(?:[a-z][a-z\d+.-]*:|\/|#)/i.test(url);
+}
+
+function splitUrlSuffix(url: string): [string, string?] {
+  const index = url.search(/[?#]/);
+  return index === -1 ? [url] : [url.slice(0, index), url.slice(index)];
+}
+
+function normalizeAssetPath(filePath: string, assetPath: string): string {
+  const baseParts = filePath.split('/').slice(0, -1);
+  const parts = [...baseParts, ...assetPath.split('/')];
+  const normalized: string[] = [];
+
+  for (const part of parts) {
+    if (!part || part === '.') {
+      continue;
+    }
+
+    if (part === '..') {
+      if (normalized.length > 0 && normalized.at(-1) !== '..') {
+        normalized.pop();
+      } else {
+        normalized.push(part);
+      }
+      continue;
+    }
+
+    normalized.push(part);
+  }
+
+  return normalized.join('/');
 }
 
 function slugFromPath(filePath: string): string {

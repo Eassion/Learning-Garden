@@ -8,6 +8,8 @@ export interface Post {
   readingMinutes: number;
 }
 
+export type PostAssetMap = Record<string, string>;
+
 export interface CategoryStat {
   category: string;
   count: number;
