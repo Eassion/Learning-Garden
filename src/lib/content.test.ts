@@ -68,6 +68,25 @@ category: Java 后端
     expect(post.content).toContain('![外链](https://example.com/image.png)');
   });
 
+  it('converts local html image tags into markdown images', () => {
+    const post = parsePost(
+      '../content/posts/marktext-note.md',
+      `---
+title: MarkText 图片
+date: 2026-06-12
+category: 工具
+---
+
+<img title="" src="file:///C:/Users/me/Pictures/demo.png" alt="" width="347">`,
+      {
+        'file:///C:/Users/me/Pictures/demo.png': '/note-assets/marktext-note/demo.png',
+      },
+    );
+
+    expect(post.content).toContain('![](/note-assets/marktext-note/demo.png)');
+    expect(post.content).not.toContain('<img');
+  });
+
   it('throws a clear error when required frontmatter is missing', () => {
     expect(() =>
       parsePost(

@@ -25,6 +25,6 @@ tags:
 
 有人会想那我写一个详细的长prompt，每一步都详细介绍，但是prompt毕竟只会存在这一次session，下次新开个会话或者换一个人来开发就不知道当初为什么这么写，OpenSpec的价值就在这里，它可以把需求放进仓库，并且有一个详细的目录结构：
 
-<img title="" src="file:///C:/Users/23738/AppData/Roaming/marktext/images/2026-06-12-16-44-46-image.png" alt="" width="378">
+<img title="" src="file:///C:/Users/23738/AppData/Roaming/marktext/images/2026-06-12-16-44-46-image.png" alt="" width="347">
 
 OpenSpec 的核心价值不是“帮我写计划”，而是把需求意图变成可版本管理、可审查、可复用的规格。它解决的是 AI 开发里最容易失控的上游问题：需求没定义清楚，Agent 就开始写代码。

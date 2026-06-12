@@ -104,12 +104,12 @@ function cleanMarkdownUrl(value) {
 function resolveSourcePath(url, markdownPath) {
   const path = stripUrlSuffix(url);
 
-  if (isPublicOrRemoteUrl(path)) {
-    return undefined;
-  }
-
   if (path.startsWith('file://')) {
     return fileURLToPath(path);
+  }
+
+  if (isPublicOrRemoteUrl(path)) {
+    return undefined;
   }
 
   if (isWindowsAbsolutePath(path) || isAbsolute(path)) {

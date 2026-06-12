@@ -199,9 +199,21 @@ function resolveMarkdownAssetUrls(content: string, filePath: string, assets: Pos
     .replace(/(!\[[^\]]*]\()([^)]+)(\))/g, (_match, prefix: string, rawUrl: string, suffix: string) => {
       return `${prefix}${resolveAssetUrl(rawUrl, filePath, assets)}${suffix}`;
     })
-    .replace(/(<img\b[^>]*\bsrc=["'])([^"']+)(["'][^>]*>)/gi, (_match, prefix: string, rawUrl: string, suffix: string) => {
-      return `${prefix}${resolveAssetUrl(rawUrl, filePath, assets)}${suffix}`;
+    .replace(/<img\b[^>]*>/gi, (tag: string) => {
+      const rawUrl = getHtmlAttribute(tag, 'src');
+
+      if (!rawUrl) {
+        return tag;
+      }
+
+      const alt = getHtmlAttribute(tag, 'alt') ?? getHtmlAttribute(tag, 'title') ?? '图片';
+      return `![${alt}](${resolveAssetUrl(rawUrl, filePath, assets)})`;
     });
+}
+
+function getHtmlAttribute(tag: string, name: string): string | undefined {
+  const pattern = new RegExp(`\\b${name}=["']([^"']*)["']`, 'i');
+  return pattern.exec(tag)?.[1];
 }
 
 function resolveAssetUrl(rawUrl: string, filePath: string, assets: PostAssetMap): string {
@@ -223,6 +235,10 @@ function resolveAssetUrl(rawUrl: string, filePath: string, assets: PostAssetMap)
 }
 
 function isExternalOrPublicUrl(url: string): boolean {
+  if (url.startsWith('file://')) {
+    return false;
+  }
+
   if (/^[a-z]:[\\/]/i.test(url)) {
     return false;
   }
