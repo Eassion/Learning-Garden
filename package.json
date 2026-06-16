@@ -16,12 +16,13 @@
     "react": "latest",
     "react-dom": "latest",
     "react-markdown": "latest",
-    "react-router-dom": "latest"
+    "react-router-dom": "latest",
+    "remark-gfm": "^4.0.1"
   },
   "devDependencies": {
+    "@types/node": "latest",
     "@types/react": "latest",
     "@types/react-dom": "latest",
-    "@types/node": "latest",
     "@vitejs/plugin-react": "latest",
     "typescript": "latest",
     "vite": "latest",
