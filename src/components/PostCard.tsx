@@ -2,10 +2,10 @@ import { ArrowRight, Calendar, Clock, Folder } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { formatDate } from '../lib/labels';
 import { categoryPath, postPath, tagPath } from '../lib/routes';
-import type { Post } from '../lib/types';
+import type { PostSummary } from '../lib/types';
 
 interface PostCardProps {
-  post: Post;
+  post: PostSummary;
 }
 
 export function PostCard({ post }: PostCardProps) {

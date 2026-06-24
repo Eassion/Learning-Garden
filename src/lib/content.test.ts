@@ -5,6 +5,7 @@ import {
   buildHeatmap,
   chooseReviewPost,
   parsePost,
+  parsePostSummary,
 } from './content';
 import type { Post } from './types';
 
@@ -151,5 +152,33 @@ describe('content aggregations', () => {
     const chosen = chooseReviewPost(posts, () => 0);
 
     expect(chosen?.slug).toBe('agent-note');
+  });
+});
+
+describe('parsePostSummary', () => {
+  it('parses post metadata without carrying markdown content', () => {
+    const post = parsePostSummary(
+      '../content/posts/lazy-note.md',
+      `---
+title: Lazy Note
+date: 2026-06-24
+category: Build
+tags: vite, docker
+---
+
+# Heavy body
+
+This markdown should stay out of the listing bundle.`,
+    );
+
+    expect(post).toEqual({
+      slug: 'lazy-note',
+      title: 'Lazy Note',
+      date: '2026-06-24',
+      category: 'Build',
+      tags: ['vite', 'docker'],
+      readingMinutes: 1,
+    });
+    expect('content' in post).toBe(false);
   });
 });

@@ -5,11 +5,12 @@
   "type": "module",
   "scripts": {
     "sync:images": "node scripts/sync-note-images.mjs",
-    "dev": "node scripts/sync-note-images.mjs && vite",
-    "build": "node scripts/sync-note-images.mjs && tsc -b && vite build",
+    "generate:index": "node scripts/generate-post-index.mjs",
+    "dev": "node scripts/sync-note-images.mjs && node scripts/generate-post-index.mjs && vite",
+    "build": "node scripts/sync-note-images.mjs && node scripts/generate-post-index.mjs && tsc -b && vite build",
     "preview": "vite preview",
-    "test": "node scripts/sync-note-images.mjs && vitest run",
-    "test:watch": "vitest"
+    "test": "node scripts/sync-note-images.mjs && node scripts/generate-post-index.mjs && vitest run",
+    "test:watch": "node scripts/sync-note-images.mjs && node scripts/generate-post-index.mjs && vitest"
   },
   "dependencies": {
     "lucide-react": "latest",

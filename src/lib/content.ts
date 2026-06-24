@@ -1,4 +1,4 @@
-import type { ArchiveMonth, CategoryStat, HeatmapData, HeatmapDay, Post, PostAssetMap, TagStat } from './types';
+import type { ArchiveMonth, CategoryStat, HeatmapData, HeatmapDay, Post, PostAssetMap, PostSummary, TagStat } from './types';
 
 const REQUIRED_FRONTMATTER = ['title', 'date', 'category'] as const;
 const CATEGORY_ROADMAP = ['Java 后端', 'Golang 后端', 'Agent 开发'];
@@ -12,23 +12,21 @@ type Frontmatter = {
 
 export function parsePost(filePath: string, raw: string, assets: PostAssetMap = {}): Post {
   const { frontmatter, content } = parseFrontmatter(raw, filePath);
-  const missing = REQUIRED_FRONTMATTER.filter((key) => !frontmatter[key]);
-
-  if (missing.length > 0) {
-    throw new Error(`${filePath} missing required frontmatter: ${missing.join(', ')}`);
-  }
+  validateRequiredFrontmatter(frontmatter, filePath);
 
   const resolvedContent = resolveMarkdownAssetUrls(content.trim(), filePath, assets);
 
   return {
-    slug: slugFromPath(filePath),
-    title: String(frontmatter.title),
-    date: normalizeDate(frontmatter.date),
-    category: String(frontmatter.category),
-    tags: parseTags(frontmatter.tags),
+    ...postSummaryFromFrontmatter(filePath, frontmatter, resolvedContent),
     content: resolvedContent,
-    readingMinutes: estimateReadingMinutes(resolvedContent),
   };
+}
+
+export function parsePostSummary(filePath: string, raw: string): PostSummary {
+  const { frontmatter, content } = parseFrontmatter(raw, filePath);
+  validateRequiredFrontmatter(frontmatter, filePath);
+
+  return postSummaryFromFrontmatter(filePath, frontmatter, content.trim());
 }
 
 function parseFrontmatter(raw: string, filePath: string): { frontmatter: Frontmatter; content: string } {
@@ -71,11 +69,11 @@ function parseFrontmatter(raw: string, filePath: string): { frontmatter: Frontma
   return { frontmatter, content };
 }
 
-export function sortPostsByDate(posts: Post[]): Post[] {
+export function sortPostsByDate<T extends PostSummary>(posts: T[]): T[] {
   return [...posts].sort((a, b) => b.date.localeCompare(a.date));
 }
 
-export function buildCategoryStats(posts: Post[]): CategoryStat[] {
+export function buildCategoryStats(posts: PostSummary[]): CategoryStat[] {
   const map = new Map<string, CategoryStat>();
 
   for (const post of posts) {
@@ -95,7 +93,7 @@ export function buildCategoryStats(posts: Post[]): CategoryStat[] {
   return Array.from(map.values()).sort((a, b) => categoryRank(a.category) - categoryRank(b.category) || b.count - a.count || a.category.localeCompare(b.category, 'zh-CN'));
 }
 
-export function buildTagStats(posts: Post[]): TagStat[] {
+export function buildTagStats(posts: PostSummary[]): TagStat[] {
   const map = new Map<string, number>();
 
   for (const post of posts) {
@@ -107,8 +105,8 @@ export function buildTagStats(posts: Post[]): TagStat[] {
   return Array.from(map, ([tag, count]) => ({ tag, count })).sort((a, b) => b.count - a.count || a.tag.localeCompare(b.tag, 'zh-CN'));
 }
 
-export function buildArchive(posts: Post[]): ArchiveMonth[] {
-  const map = new Map<string, Post[]>();
+export function buildArchive(posts: PostSummary[]): ArchiveMonth[] {
+  const map = new Map<string, PostSummary[]>();
 
   for (const post of sortPostsByDate(posts)) {
     const month = post.date.slice(0, 7);
@@ -118,7 +116,7 @@ export function buildArchive(posts: Post[]): ArchiveMonth[] {
   return Array.from(map, ([month, monthPosts]) => ({ month, posts: monthPosts })).sort((a, b) => b.month.localeCompare(a.month));
 }
 
-export function buildHeatmap(posts: Post[], today = new Date()): HeatmapData {
+export function buildHeatmap(posts: PostSummary[], today = new Date()): HeatmapData {
   const end = startOfDay(today);
   const start = addDays(end, -364);
   const counts = new Map<string, number>();
@@ -140,7 +138,7 @@ export function buildHeatmap(posts: Post[], today = new Date()): HeatmapData {
   return { days, maxCount };
 }
 
-export function chooseReviewPost(posts: Post[], random = Math.random): Post | undefined {
+export function chooseReviewPost<T extends PostSummary>(posts: T[], random = Math.random): T | undefined {
   const sortedPosts = sortPostsByDate(posts);
 
   if (sortedPosts.length === 0) {
@@ -150,15 +148,15 @@ export function chooseReviewPost(posts: Post[], random = Math.random): Post | un
   return sortedPosts[Math.floor(random() * sortedPosts.length)];
 }
 
-export function groupPostsByCategory(posts: Post[], category: string): Post[] {
+export function groupPostsByCategory<T extends PostSummary>(posts: T[], category: string): T[] {
   return sortPostsByDate(posts).filter((post) => post.category === category);
 }
 
-export function groupPostsByTag(posts: Post[], tag: string): Post[] {
+export function groupPostsByTag<T extends PostSummary>(posts: T[], tag: string): T[] {
   return sortPostsByDate(posts).filter((post) => post.tags.includes(tag));
 }
 
-export function postsOnDate(posts: Post[], date: string): Post[] {
+export function postsOnDate<T extends PostSummary>(posts: T[], date: string): T[] {
   return sortPostsByDate(posts).filter((post) => post.date === date);
 }
 
@@ -209,6 +207,25 @@ function resolveMarkdownAssetUrls(content: string, filePath: string, assets: Pos
       const alt = getHtmlAttribute(tag, 'alt') ?? getHtmlAttribute(tag, 'title') ?? '图片';
       return `![${alt}](${resolveAssetUrl(rawUrl, filePath, assets)})`;
     });
+}
+
+function validateRequiredFrontmatter(frontmatter: Frontmatter, filePath: string): void {
+  const missing = REQUIRED_FRONTMATTER.filter((key) => !frontmatter[key]);
+
+  if (missing.length > 0) {
+    throw new Error(`${filePath} missing required frontmatter: ${missing.join(', ')}`);
+  }
+}
+
+function postSummaryFromFrontmatter(filePath: string, frontmatter: Frontmatter, content: string): PostSummary {
+  return {
+    slug: slugFromPath(filePath),
+    title: String(frontmatter.title),
+    date: normalizeDate(frontmatter.date),
+    category: String(frontmatter.category),
+    tags: parseTags(frontmatter.tags),
+    readingMinutes: estimateReadingMinutes(content),
+  };
 }
 
 function getHtmlAttribute(tag: string, name: string): string | undefined {

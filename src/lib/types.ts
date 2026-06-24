@@ -1,11 +1,18 @@
-export interface Post {
+export interface PostSummary {
   slug: string;
   title: string;
   date: string;
   category: string;
   tags: string[];
-  content: string;
   readingMinutes: number;
+}
+
+export interface Post extends PostSummary {
+  content: string;
+}
+
+export interface PostIndexEntry extends PostSummary {
+  sourcePath: string;
 }
 
 export type PostAssetMap = Record<string, string>;
@@ -23,7 +30,7 @@ export interface TagStat {
 
 export interface ArchiveMonth {
   month: string;
-  posts: Post[];
+  posts: PostSummary[];
 }
 
 export interface HeatmapDay {
