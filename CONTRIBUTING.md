@@ -108,7 +108,11 @@ git push origin notes/add-spring-transaction
 - 是否包含图片或其他静态资源
 - 是否已经运行本地验证命令
 
-## 7. Review 标准
+## 7. 合入和部署
+
+PR 合入 `main` 分支后，GitHub Actions 会自动运行测试和构建。生产服务器的部署权限由维护者管理，贡献者不需要登录服务器，也不需要接触部署密钥。
+
+## 8. Review 标准
 
 一篇笔记合入前，需要满足：
 

@@ -87,15 +87,17 @@ docker compose down
 
 ## 服务器部署
 
-1. 在服务器安装 Docker 和 Docker Compose。
-2. 把项目代码上传到服务器。
-3. 在项目目录运行：
+项目已配置 GitHub Actions 自动部署。推送到 `main` 分支后，会先运行测试和构建，通过后由维护者配置的部署流程发布到服务器。
+
+服务器访问权限、部署密钥和生产环境操作仅由维护者管理，不需要也不应在贡献内容时使用。
+
+如果需要在本地模拟生产容器，可以运行：
 
 ```bash
 docker compose up -d --build
 ```
 
-4. 通过 `http://服务器IP` 访问。
+然后访问 `http://localhost`。
 
 第一版没有配置域名和 HTTPS。后续可以用 Caddy、Traefik 或 nginx + Certbot 增加域名和证书。
 
