@@ -2,6 +2,79 @@ import type { PostIndexEntry } from './types';
 
 export const generatedPostIndex = [
   {
+    "sourcePath": "../content/posts/CI-CD.md",
+    "slug": "CI-CD",
+    "title": "CI/CD",
+    "date": "2026-07-13",
+    "category": "工程化",
+    "tags": [
+      "CI/CD",
+      "GitHub Actions",
+      "Docker"
+    ],
+    "readingMinutes": 4
+  },
+  {
+    "sourcePath": "../content/posts/你平时是怎么进行AI Coding的.md",
+    "slug": "你平时是怎么进行AI Coding的",
+    "title": "你平常是怎么进行AI Coding的？",
+    "date": "2026-07-03",
+    "category": "大模型应用开发",
+    "tags": [
+      "ai coding"
+    ],
+    "readingMinutes": 2
+  },
+  {
+    "sourcePath": "../content/posts/Agent-Trace.md",
+    "slug": "Agent-Trace",
+    "title": "Agent trace方法",
+    "date": "2026-06-30",
+    "category": "大模型应用开发",
+    "tags": [
+      "Agent",
+      "Trace",
+      "hook"
+    ],
+    "readingMinutes": 1
+  },
+  {
+    "sourcePath": "../content/posts/排查慢sql.md",
+    "slug": "排查慢sql",
+    "title": "mysql中如何排查慢sql？",
+    "date": "2026-06-29",
+    "category": "MySQL",
+    "tags": [
+      "数据库",
+      "索引"
+    ],
+    "readingMinutes": 6
+  },
+  {
+    "sourcePath": "../content/posts/2026-6-25Java面经整理.md",
+    "slug": "2026-6-25Java面经整理",
+    "title": "Java必备八股文Day-06",
+    "date": "2026-06-25",
+    "category": "Java后端",
+    "tags": [
+      "Java基础",
+      "Spring"
+    ],
+    "readingMinutes": 5
+  },
+  {
+    "sourcePath": "../content/posts/2026-6-24Java面经整理.md",
+    "slug": "2026-6-24Java面经整理",
+    "title": "Java必备八股文Day-05",
+    "date": "2026-06-24",
+    "category": "Java后端",
+    "tags": [
+      "Java基础",
+      "Spring"
+    ],
+    "readingMinutes": 9
+  },
+  {
     "sourcePath": "../content/posts/DNS协议.md",
     "slug": "DNS协议",
     "title": "DNS协议属于哪个层，具体流程是？",
@@ -15,6 +88,17 @@ export const generatedPostIndex = [
     "readingMinutes": 3
   },
   {
+    "sourcePath": "../content/posts/TLS的过程.md",
+    "slug": "TLS的过程",
+    "title": "TLS/SSL的过程？",
+    "date": "2026-06-23",
+    "category": "计算机网络",
+    "tags": [
+      "计算机网络"
+    ],
+    "readingMinutes": 5
+  },
+  {
     "sourcePath": "../content/posts/http和https的区别.md",
     "slug": "http和https的区别",
     "title": "HTTPS和HTTP的区别？",
@@ -26,17 +110,6 @@ export const generatedPostIndex = [
       "计算机网络"
     ],
     "readingMinutes": 1
-  },
-  {
-    "sourcePath": "../content/posts/TLS的过程.md",
-    "slug": "TLS的过程",
-    "title": "TLS/SSL的过程？",
-    "date": "2026-06-23",
-    "category": "计算机网络",
-    "tags": [
-      "计算机网络"
-    ],
-    "readingMinutes": 5
   },
   {
     "sourcePath": "../content/posts/从url到浏览器的过程.md",
